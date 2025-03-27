@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>带蛾回家 - pickupmymoth.com</title>
+    <title>带蛾回家</title>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         body {
@@ -103,6 +103,21 @@
         .simple-download-btn svg {
             margin-right: 5px;
         }
+        /* 状态提示样式 */
+        .status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
@@ -122,17 +137,77 @@
         <span>带蛾回家</span>
     </button>
 
+    <div id="statusMessage" class="status-message"></div>
+
     <script>
+        // 后端API基础URL - 修改为localhost
+        const API_BASE_URL = 'http://localhost';
+
+        // 显示状态消息
+        function showStatusMessage(message, isSuccess) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = message;
+            statusElement.className = isSuccess ? 'status-message status-success' : 'status-message status-error';
+            statusElement.style.display = 'block';
+
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 3000);
+        }
+
+        // 检查后端连接
+        function checkBackendConnection() {
+            fetch(`${API_BASE_URL}/check-update`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应不正常');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    showStatusMessage('成功连接到后端服务', true);
+                    console.log('后端连接正常:', data);
+                })
+                .catch(error => {
+                    showStatusMessage('无法连接到后端服务: ' + error.message, false);
+                    console.error('连接后端失败:', error);
+                });
+        }
+
+        // 页面加载完成后检查连接
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始检查
+            checkBackendConnection();
+
+            // 每30秒检查一次更新
+            setInterval(checkBackendConnection, 30000);
+        });
+
         // 下载海报
         document.getElementById('downloadBtn').addEventListener('click', function() {
             const poster = document.getElementById('poster');
 
-            html2canvas(poster).then(canvas => {
-                const link = document.createElement('a');
-                link.download = '带蛾回家-' + new Date().getTime() + '.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
+            // 先检查后端连接
+            fetch(`${API_BASE_URL}/check-update`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('无法连接到后端，请检查网络');
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    // 后端连接正常，继续下载
+                    html2canvas(poster).then(canvas => {
+                        const link = document.createElement('a');
+                        link.download = '带蛾回家-' + new Date().getTime() + '.png';
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                    });
+                })
+                .catch(error => {
+                    showStatusMessage(error.message, false);
+                });
         });
     </script>
 </body>
