@@ -14,47 +14,113 @@
             background-color: #f5f5f5;
             text-align: center;
         }
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
-        }
         #poster {
-            width: 100%;
-            background-color: #fff9e6;
-            padding: 30px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
+            width: 450px;
+            height: 700px;
+            background-color: black;
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
         }
-        .poster-title {
-            font-size: 28px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
+        .img1 {
+            position: absolute;
+            left: 50px;
+            top: 0;
+            width: 350px;
+            height: 50px;
+            background-color: white;
         }
-        button {
-            background-color: #4CAF50;
+        .img2 {
+            position: absolute;
+            left: 25px;
+            top: 50px;
+            width: 400px;
+            height: 400px;
+            background-color: white;
+        }
+        .img3 {
+            position: absolute;
+            left: 25px;
+            top: 450px;
+            width: 350px;
+            height: 50px;
+            background-color: white;
+        }
+        .text1 {
+            position: absolute;
+            left: 0;
+            top: 500px;
+            width: 450px;
+            height: 150px;
             color: white;
-            border: none;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        .text2 {
+            position: absolute;
+            left: 0;
+            top: 650px;
+            width: 450px;
+            height: 50px;
+            color: gray;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        /* 简约下载按钮样式 */
+        .simple-download-btn {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ddd;
             padding: 10px 20px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-        button:hover {
-            background-color: #45a049;
+        .simple-download-btn:hover {
+            background-color: #f8f8f8;
+            border-color: #ccc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .simple-download-btn:active {
+            background-color: #eee;
+        }
+        .simple-download-btn svg {
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>带蛾回家</h1>
-
     <div id="poster">
-        <div class="poster-title">带蛾回家</div>
-        <div>pickupmymoth.com</div>
+        <div class="img1"></div>
+        <div class="img2"></div>
+        <div class="img3"></div>
+        <div class="text1">数字世界的生命体在深圳的天空遨游</div>
+        <div class="text2">图像由观众输入的文字引导人工智能生成，不代表艺术家及展览的观点立场。</div>
     </div>
 
-    <button id="downloadBtn">下载海报</button>
+    <button id="downloadBtn" class="simple-download-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+        </svg>
+        <span>带蛾回家</span>
+    </button>
 
     <script>
         // 下载海报
